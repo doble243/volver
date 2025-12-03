@@ -111,7 +111,7 @@ export const Hero: React.FC = () => {
 
       {/* Dynamic Scroll Indicator */}
       <div 
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer z-10 group" 
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer z-10 group hidden md:flex" 
         onClick={handleScrollToMenu}
         style={{ opacity: Math.max(0, 1 - offset / 300) }}
       >
