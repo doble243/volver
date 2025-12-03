@@ -12,10 +12,12 @@ export const Menu: React.FC = () => {
   // Auto-scroll active category into view
   useEffect(() => {
     if (scrollContainerRef.current) {
-        const activeButton = scrollContainerRef.current.querySelector(`[data-category="${activeCategory}"]`);
-        if (activeButton) {
-            activeButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
+      const activeButton = scrollContainerRef.current.querySelector(`[data-category="${activeCategory}"]`) as HTMLElement;
+      if (activeButton) {
+        const container = scrollContainerRef.current;
+        const scrollLeft = activeButton.offsetLeft - (container.clientWidth / 2) + (activeButton.clientWidth / 2);
+        container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+      }
     }
   }, [activeCategory]);
 
@@ -34,11 +36,11 @@ export const Menu: React.FC = () => {
       <div className="flex-1 pr-4 space-y-3">
         {/* Title Placeholder */}
         <div className="h-5 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-[length:200%_100%] animate-shimmer rounded w-2/3"></div>
-        
+
         {/* Description Placeholder */}
         <div className="space-y-2 pt-1">
-            <div className="h-3 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-[length:200%_100%] animate-shimmer rounded w-full"></div>
-            <div className="h-3 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-[length:200%_100%] animate-shimmer rounded w-4/5"></div>
+          <div className="h-3 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-[length:200%_100%] animate-shimmer rounded w-full"></div>
+          <div className="h-3 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-[length:200%_100%] animate-shimmer rounded w-4/5"></div>
         </div>
       </div>
       {/* Price Placeholder */}
@@ -60,44 +62,43 @@ export const Menu: React.FC = () => {
 
         {/* Category Navigation - Mobile First: Horizontal Scroll */}
         <div className="relative mb-10 group">
-            <div 
-                ref={scrollContainerRef}
-                className="flex overflow-x-auto pb-4 scrollbar-hide gap-3 md:gap-4 md:justify-center px-4 -mx-4 md:mx-0 snap-x"
-            >
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto pb-4 scrollbar-hide gap-3 md:gap-4 md:justify-center px-4 -mx-4 md:mx-0 snap-x"
+          >
             {MENU_DATA.map((category) => (
-                <button
+              <button
                 key={category.id}
                 data-category={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`snap-center shrink-0 px-6 py-2.5 rounded-full text-sm md:text-base font-sans transition-all duration-300 whitespace-nowrap border ${
-                    activeCategory === category.id
+                className={`snap-center shrink-0 px-6 py-2.5 rounded-full text-sm md:text-base font-sans transition-all duration-300 whitespace-nowrap border ${activeCategory === category.id
                     ? 'bg-volver-dark text-white border-volver-dark shadow-lg transform scale-105'
                     : 'bg-white text-gray-600 border-gray-200 hover:border-volver-gold hover:text-volver-dark'
-                }`}
-                >
+                  }`}
+              >
                 {category.title}
-                </button>
+              </button>
             ))}
-            </div>
-            {/* Fade effect on sides for mobile to indicate scroll */}
-            <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-volver-cream to-transparent md:hidden pointer-events-none"></div>
-            <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-volver-cream to-transparent md:hidden pointer-events-none"></div>
+          </div>
+          {/* Fade effect on sides for mobile to indicate scroll */}
+          <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-volver-cream to-transparent md:hidden pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-volver-cream to-transparent md:hidden pointer-events-none"></div>
         </div>
 
         {/* Menu Items Grid */}
         <div className="max-w-5xl mx-auto min-h-[400px]">
           {isLoading ? (
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-               {[1, 2, 3, 4, 5, 6].map((i) => (
-                 <SkeletonItem key={i} />
-               ))}
-             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <SkeletonItem key={i} />
+              ))}
+            </div>
           ) : (
             activeData && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 {activeData.items.map((item, index) => (
-                  <div 
-                    key={`${activeCategory}-${index}`} 
+                  <div
+                    key={`${activeCategory}-${index}`}
                     className="flex justify-between items-start p-5 bg-white rounded-xl shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group animate-fade-in-scale opacity-0 h-full"
                     style={{ animationDelay: `${index * 75}ms`, animationFillMode: 'forwards' }}
                   >
@@ -121,9 +122,9 @@ export const Menu: React.FC = () => {
             )
           )}
         </div>
-        
+
         <div className="mt-12 text-center">
-            <p className="text-xs md:text-sm text-gray-400 italic">* Precios en Pesos Uruguayos. Sujetos a cambios sin previo aviso.</p>
+          <p className="text-xs md:text-sm text-gray-400 italic">* Precios en Pesos Uruguayos. Sujetos a cambios sin previo aviso.</p>
         </div>
       </div>
     </section>

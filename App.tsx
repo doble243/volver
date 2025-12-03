@@ -12,13 +12,18 @@ import { UtensilsCrossed, Calendar } from 'lucide-react';
 function App() {
   const [isReservationOpen, setIsReservationOpen] = useState(false);
 
+  // Force scroll to top on mount to prevent browser restoration or auto-scroll issues
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const openReservation = () => setIsReservationOpen(true);
   const closeReservation = () => setIsReservationOpen(false);
 
   return (
     <div className="min-h-screen flex flex-col font-sans text-gray-900 bg-volver-cream selection:bg-volver-gold selection:text-white">
       <Navbar onOpenReservation={openReservation} />
-      
+
       <main className="flex-grow">
         <Hero />
         <FeaturedDishes />
@@ -28,7 +33,7 @@ function App() {
       </main>
 
       <Footer />
-      
+
       <ReservationModal isOpen={isReservationOpen} onClose={closeReservation} />
 
       {/* Floating Reservation Action Button - Premium Mobile Optimized */}
@@ -38,23 +43,23 @@ function App() {
         aria-label="Reservar Mesa"
       >
         <div className="relative">
-             <UtensilsCrossed size={22} className="text-white transform group-hover:rotate-12 transition-transform duration-300" />
-             <div className="absolute -bottom-1.5 -right-1.5 bg-white text-volver-dark rounded-full p-[3px] border border-volver-gold shadow-sm">
-                <Calendar size={10} strokeWidth={3} />
-             </div>
+          <UtensilsCrossed size={22} className="text-white transform group-hover:rotate-12 transition-transform duration-300" />
+          <div className="absolute -bottom-1.5 -right-1.5 bg-white text-volver-dark rounded-full p-[3px] border border-volver-gold shadow-sm">
+            <Calendar size={10} strokeWidth={3} />
+          </div>
         </div>
         <div className="flex flex-col items-start">
-            <span className="font-serif font-bold tracking-wide text-white leading-none text-base shadow-sm">
+          <span className="font-serif font-bold tracking-wide text-white leading-none text-base shadow-sm">
             Reservar
-            </span>
-            <span className="text-[10px] text-white/90 font-sans tracking-widest uppercase leading-none mt-0.5">
+          </span>
+          <span className="text-[10px] text-white/90 font-sans tracking-widest uppercase leading-none mt-0.5">
             Mesa
-            </span>
+          </span>
         </div>
-        
+
         {/* Subtle shimmer effect */}
         <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
-            <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:animate-shimmer" />
+          <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:animate-shimmer" />
         </div>
       </button>
     </div>
